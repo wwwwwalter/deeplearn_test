@@ -28,22 +28,42 @@ def cost_function(X, y, theta):
     return cost  # 返回损失值
 
 
+# # 定义梯度下降算法
+# def gradient_descent(X, y, theta, learning_rate, num_iterations):
+#     m = len(y)  # 数据点的数量
+#     cost_history = [0] * num_iterations  # 初始化成本历史记录
+#     # 循环进行梯度下降迭代
+#     for iteration in range(num_iterations):
+#         predictions = hypothesis(X, theta)  # 计算当前参数下的预测值
+#         error = np.dot(X.transpose(), (predictions - y))  # 计算误差
+#         theta -= (learning_rate / float(m)) * error  # 更新参数（标准梯度下降更新算法）
+#         cost_history[iteration] = cost_function(X, y, theta)  # 记录当前迭代的成本(当前损失值/均方差)
+#     return theta, cost_history  # 返回最终参数和成本历史
+
+# 求偏导数向量(求梯度)
+def compute_gradients(X, y, theta):
+    m = len(y)  # 数据点的数量
+    predictions = hypothesis(X, theta)  # 计算预测值
+    gradients = (1 / m) * np.dot(X.T, (predictions - y))  # 计算偏导数
+    return gradients
+
+
 # 定义梯度下降算法
 def gradient_descent(X, y, theta, learning_rate, num_iterations):
     m = len(y)  # 数据点的数量
     cost_history = [0] * num_iterations  # 初始化成本历史记录
+
     # 循环进行梯度下降迭代
     for iteration in range(num_iterations):
-        predictions = hypothesis(X, theta)  # 计算当前参数下的预测值
-        error = np.dot(X.transpose(), (predictions - y))  # 计算误差
-        theta -= (learning_rate / float(m)) * error  # 更新参数（标准梯度下降更新算法）
-        cost_history[iteration] = cost_function(X, y, theta)  # 记录当前迭代的成本(当前损失值/均方差)
+        gradients = compute_gradients(X, y, theta)  # 计算偏导数向量（梯度）
+        theta = theta - learning_rate * gradients  # 更新参数（标准梯度下降更新算法）
+        cost_history[iteration] = cost_function(X, y, theta)  # 记录当前迭代的成本
+
     return theta, cost_history  # 返回最终参数和成本历史
 
 
 # 生成数据
 data = generate_data(100)  # 生成100个数据点
-
 
 X = data[:, :2]  # 提取特征
 y = data[:, 2]  # 提取目标变量

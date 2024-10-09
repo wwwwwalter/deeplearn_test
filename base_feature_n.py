@@ -8,7 +8,7 @@ def generate_data(num_points, num_features=2):
     np.random.seed(42)  # 设置随机种子以便结果可重复
     for _ in range(num_points):
         features = [np.random.uniform(-10., 10.) for _ in range(num_features)]
-        y = sum([(i+2) * f for i, f in enumerate(features)]) + np.random.normal()
+        y = sum([(i + 2) * f for i, f in enumerate(features)]) + np.random.normal()
         points.append(features + [y])
     return np.array(points)
 
@@ -26,16 +26,35 @@ def cost_function(X, y, theta):
     return cost
 
 
+# # 定义梯度下降算法
+# def gradient_descent(X, y, theta, learning_rate, num_iterations):
+#     m = len(y)
+#     cost_history = [0] * num_iterations
+#     for iteration in range(num_iterations):
+#         predictions = hypothesis(X, theta)
+#         error = np.dot(X.transpose(), (predictions - y))
+#         theta -= (learning_rate / float(m)) * error
+#         cost_history[iteration] = cost_function(X, y, theta)
+#     return theta, cost_history
+
+# 求偏导数向量(求梯度)
+def compute_gradients(X, y, theta):
+    m = len(y)
+    predictions = hypothesis(X, theta)
+    gradients = (1 / m) * np.dot(X.T, (predictions - y))
+    return gradients
+
+
 # 定义梯度下降算法
 def gradient_descent(X, y, theta, learning_rate, num_iterations):
     m = len(y)
     cost_history = [0] * num_iterations
+
     for iteration in range(num_iterations):
-        predictions = hypothesis(X, theta)
-        error = np.dot(X.transpose(), (predictions - y))
-        theta -= (learning_rate / float(m)) * error
+        gradients = compute_gradients(X, y, theta)
+        theta = theta - learning_rate * gradients
         cost_history[iteration] = cost_function(X, y, theta)
-    return theta, cost_history
+    return theta,cost_history
 
 
 # 生成数据
@@ -50,10 +69,8 @@ y = data[:, num_features]  # 提取目标变量
 m = len(y)
 X = np.hstack((np.ones((m, 1)), X))
 
-
 # 初始化参数θ
 theta = np.zeros(num_features + 1)
-
 
 # 设置学习率和迭代次数
 learning_rate = 0.01
