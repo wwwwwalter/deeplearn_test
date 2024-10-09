@@ -39,7 +39,7 @@ def gradient_descent(X, y, theta, learning_rate, num_iterations):
 
 
 # 生成数据
-num_features = 2  # 特征数量
+num_features = 10  # 特征数量
 data = generate_data(100, num_features=num_features)  # 生成100个数据点
 # print(data)
 
@@ -57,7 +57,7 @@ theta = np.zeros(num_features + 1)
 
 # 设置学习率和迭代次数
 learning_rate = 0.01
-num_iterations = 1500
+num_iterations = 15000
 
 # 运行梯度下降算法
 theta, cost_history = gradient_descent(X, y, theta, learning_rate, num_iterations)

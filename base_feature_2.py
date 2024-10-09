@@ -24,7 +24,7 @@ def hypothesis(X, theta):
 def cost_function(X, y, theta):
     m = len(y)  # 数据点的数量
     predictions = hypothesis(X, theta)  # 计算预测值
-    cost = (1 / (2 * m)) * np.sum((predictions - y) ** 2)  # 计算损失值
+    cost = (1 / (2 * m)) * np.sum((predictions - y) ** 2)  # 计算损失值（均方差）
     return cost  # 返回损失值
 
 
@@ -36,8 +36,8 @@ def gradient_descent(X, y, theta, learning_rate, num_iterations):
     for iteration in range(num_iterations):
         predictions = hypothesis(X, theta)  # 计算当前参数下的预测值
         error = np.dot(X.transpose(), (predictions - y))  # 计算误差
-        theta -= (learning_rate / float(m)) * error  # 更新参数
-        cost_history[iteration] = cost_function(X, y, theta)  # 记录当前迭代的成本
+        theta -= (learning_rate / float(m)) * error  # 更新参数（梯度下降算法之一）
+        cost_history[iteration] = cost_function(X, y, theta)  # 记录当前迭代的成本(当前损失值/均方差)
     return theta, cost_history  # 返回最终参数和成本历史
 
 
