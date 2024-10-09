@@ -36,7 +36,7 @@ def gradient_descent(X, y, theta, learning_rate, num_iterations):
     for iteration in range(num_iterations):
         predictions = hypothesis(X, theta)  # 计算当前参数下的预测值
         error = np.dot(X.transpose(), (predictions - y))  # 计算误差
-        theta -= (learning_rate / float(m)) * error  # 更新参数（梯度下降算法之一）
+        theta -= (learning_rate / float(m)) * error  # 更新参数（标准梯度下降更新算法）
         cost_history[iteration] = cost_function(X, y, theta)  # 记录当前迭代的成本(当前损失值/均方差)
     return theta, cost_history  # 返回最终参数和成本历史
 
